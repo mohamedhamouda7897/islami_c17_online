@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:islami_c17_online/core/cache_helper.dart';
 
 import 'core/app_colors.dart';
 import 'core/app_styles.dart';
@@ -82,10 +83,12 @@ class IntroductionScreens extends StatelessWidget {
 
       back: Icon(Icons.arrow_back_ios, color: AppColors.primary),
       showBackButton: true,
-      onSkip: () {
+      onSkip: () async {
+        await CacheHelper.saveBool(true);
         Navigator.pushNamed(context, HomeScreen.routeName);
       },
-      onDone: () {
+      onDone: () async {
+        await CacheHelper.saveBool(true);
         Navigator.pushNamed(context, HomeScreen.routeName);
       },
     );

@@ -7,9 +7,14 @@ import 'package:islami_c17_online/screens/home/widgets/recently_item.dart';
 import 'package:islami_c17_online/screens/home/widgets/sura_item.dart';
 import 'package:islami_c17_online/screens/sura_details/sura_details_screen.dart';
 
-class QuranTab extends StatelessWidget {
+class QuranTab extends StatefulWidget {
   QuranTab({super.key});
 
+  @override
+  State<QuranTab> createState() => _QuranTabState();
+}
+
+class _QuranTabState extends State<QuranTab> {
   List<String> surasName = [
     "الفاتحه",
     "البقرة",
@@ -126,6 +131,7 @@ class QuranTab extends StatelessWidget {
     "الفلق",
     "الناس",
   ];
+
   List<String> surasNameEnglish = [
     "Al-Fatihah",
     "Al-Baqarah",
@@ -242,6 +248,7 @@ class QuranTab extends StatelessWidget {
     "Al-Falaq",
     "An-Nas",
   ];
+
   List<int> surasVersesCount = [
     7, // Al-Fatihah
     286, // Al-Baqarah
@@ -454,6 +461,9 @@ class QuranTab extends StatelessWidget {
                   return InkWell(
                     onTap: () async {
                       await CacheHelper.saveList(index);
+                      setState(() {
+
+                      });
                       Navigator.pushNamed(
                         context,
                         SuraDetailsScreen.routeName,

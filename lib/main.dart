@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:islami_c17_online/screens/home/home_Screen.dart';
 import 'package:islami_c17_online/introduction_screen.dart';
+import 'package:islami_c17_online/screens/sura_details/sura_details_screen.dart';
 
 /// Native splash screen IOS : Farah
 /// Native splash screen Android : Abdullah
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       routes: {
         IntroductionScreens.routeName: (context) => IntroductionScreens(),
         HomeScreen.routeName: (context) => HomeScreen(),
+        SuraDetailsScreen.routeName: (context) => SuraDetailsScreen(),
       },
     );
   }

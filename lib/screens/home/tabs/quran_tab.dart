@@ -4,6 +4,7 @@ import 'package:islami_c17_online/core/app_styles.dart';
 import 'package:islami_c17_online/models/sura_model.dart';
 import 'package:islami_c17_online/screens/home/widgets/recently_item.dart';
 import 'package:islami_c17_online/screens/home/widgets/sura_item.dart';
+import 'package:islami_c17_online/screens/sura_details/sura_details_screen.dart';
 
 class QuranTab extends StatelessWidget {
   QuranTab({super.key});
@@ -446,12 +447,26 @@ class QuranTab extends StatelessWidget {
                     Divider(color: Colors.white, endIndent: 44, indent: 44),
                 itemCount: surasName.length,
                 itemBuilder: (context, index) {
-                  return SuraItem(
-                    model: SuraModel(
-                      versesCount: surasVersesCount[index],
-                      nameEn: surasNameEnglish[index],
-                      nameAr: surasName[index],
-                      suraIndex: index + 1,
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        SuraDetailsScreen.routeName,
+                        arguments: SuraModel(
+                          versesCount: surasVersesCount[index],
+                          nameEn: surasNameEnglish[index],
+                          nameAr: surasName[index],
+                          suraIndex: index + 1,
+                        ),
+                      );
+                    },
+                    child: SuraItem(
+                      model: SuraModel(
+                        versesCount: surasVersesCount[index],
+                        nameEn: surasNameEnglish[index],
+                        nameAr: surasName[index],
+                        suraIndex: index + 1,
+                      ),
                     ),
                   );
                 },

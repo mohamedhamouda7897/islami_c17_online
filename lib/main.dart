@@ -7,7 +7,7 @@ import 'package:islami_c17_online/introduction_screen.dart';
 /// splash screen Timer : Sohaila
 
 void main() {
-  runApp( MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

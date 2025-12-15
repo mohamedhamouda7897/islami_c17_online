@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:islami_c17_online/core/app_colors.dart';
 import 'package:islami_c17_online/core/app_styles.dart';
 import 'package:islami_c17_online/models/sura_model.dart';
 
-class SuraDetailsScreen extends StatelessWidget {
+class SuraDetailsScreen extends StatefulWidget {
   static const String routeName = "SuraDetailsScreen";
 
-  const SuraDetailsScreen({super.key});
+  SuraDetailsScreen({super.key});
+
+  @override
+  State<SuraDetailsScreen> createState() => _SuraDetailsScreenState();
+}
+
+class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
+  List<String> verses = [];
 
   @override
   Widget build(BuildContext context) {
     var model = ModalRoute.of(context)?.settings.arguments as SuraModel;
+    if (verses.isEmpty) {
+      loadSuraFile(model.suraIndex);
+    }
     return Scaffold(
       backgroundColor: AppColors.black,
       appBar: AppBar(
@@ -35,8 +46,14 @@ class SuraDetailsScreen extends StatelessWidget {
                 SizedBox(height: 40),
                 Expanded(
                   child: ListView.builder(
-                    itemBuilder: (context, index) =>
-                        Center(child: Text("data", style: AppStyles.bodyStyle)),
+                    itemCount: verses.length,
+                    itemBuilder: (context, index) => Center(
+                      child: Text(
+                        verses[index],
+                        textAlign: TextAlign.center,
+                        style: AppStyles.bodyStyle,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 100),
@@ -46,5 +63,13 @@ class SuraDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> loadSuraFile(int index) async {
+    String suraFile = await rootBundle.loadString("assets/files/$index.txt");
+    List<String> suraLines = suraFile.split("\n");
+    verses = suraLines;
+
+    setState(() {});
   }
 }

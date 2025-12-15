@@ -8,8 +8,9 @@ import 'package:islami_c17_online/screens/sura_details/sura_details_screen.dart'
 /// Native splash screen Android : Abdullah
 /// splash screen Timer : Sohaila
 
-void main() {
-  CacheHelper.init();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
   runApp(const MyApp());
 }
 

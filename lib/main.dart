@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:islami_c17_online/core/cache_helper.dart';
 import 'package:islami_c17_online/screens/home/home_Screen.dart';
 import 'package:islami_c17_online/introduction_screen.dart';
 import 'package:islami_c17_online/screens/sura_details/sura_details_screen.dart';
@@ -7,7 +8,9 @@ import 'package:islami_c17_online/screens/sura_details/sura_details_screen.dart'
 /// Native splash screen Android : Abdullah
 /// splash screen Timer : Sohaila
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
   runApp(const MyApp());
 }
 
@@ -19,7 +22,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: IntroductionScreens.routeName,
+      initialRoute: CacheHelper.getBool("introduction") == true
+          ? HomeScreen.routeName
+          : IntroductionScreens.routeName,
       routes: {
         IntroductionScreens.routeName: (context) => IntroductionScreens(),
         HomeScreen.routeName: (context) => HomeScreen(),

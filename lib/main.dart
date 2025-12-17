@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:islami_c17_online/core/cache_helper.dart';
+import 'package:islami_c17_online/screens/hadeth_details/hadeth_details.dart';
 import 'package:islami_c17_online/screens/home/home_Screen.dart';
 import 'package:islami_c17_online/introduction_screen.dart';
 import 'package:islami_c17_online/screens/sura_details/sura_details_screen.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         IntroductionScreens.routeName: (context) => IntroductionScreens(),
         HomeScreen.routeName: (context) => HomeScreen(),
         SuraDetailsScreen.routeName: (context) => SuraDetailsScreen(),
+        HadethDetails.routeName: (context) => HadethDetails(),
       },
     );
   }

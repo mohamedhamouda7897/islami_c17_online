@@ -15,6 +15,13 @@ class QuranTab extends StatefulWidget {
 }
 
 class _QuranTabState extends State<QuranTab> {
+  @override
+  void initState() {
+    super.initState();
+    createSurasList();
+    filteredSuras = allSuras;
+  }
+
   List<String> surasName = [
     "الفاتحه",
     "البقرة",
@@ -366,6 +373,37 @@ class _QuranTabState extends State<QuranTab> {
     6, // An-Nas
   ];
 
+  List<SuraModel> allSuras = [];
+  List<SuraModel> filteredSuras = [];
+
+  void createSurasList() {
+    for (int i = 0; i < surasName.length; i++) {
+      allSuras.add(
+        SuraModel(
+          versesCount: surasVersesCount[i],
+          nameEn: surasNameEnglish[i],
+          nameAr: surasName[i],
+          suraIndex: i + 1,
+        ),
+      );
+    }
+  }
+
+  TextEditingController searchController = TextEditingController();
+
+  void filterSuras(String query) {
+    if (query.isEmpty) {
+      filteredSuras = allSuras;
+    } else {
+      filteredSuras = allSuras.where((model) {
+        return model.nameAr.contains(query) ||
+            model.nameEn.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     List<int> displayMostRecent = CacheHelper.getList("items");
@@ -384,7 +422,12 @@ class _QuranTabState extends State<QuranTab> {
           children: [
             SizedBox(height: 192),
             TextField(
+              controller: searchController,
               cursorColor: AppColors.primary,
+
+              onChanged: (value) {
+                filterSuras(value);
+              },
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white,
@@ -456,33 +499,19 @@ class _QuranTabState extends State<QuranTab> {
                 padding: EdgeInsets.zero,
                 separatorBuilder: (context, index) =>
                     Divider(color: Colors.white, endIndent: 44, indent: 44),
-                itemCount: surasName.length,
+                itemCount: filteredSuras.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () async {
                       await CacheHelper.saveList(index);
-                      setState(() {
-
-                      });
+                      setState(() {});
                       Navigator.pushNamed(
                         context,
                         SuraDetailsScreen.routeName,
-                        arguments: SuraModel(
-                          versesCount: surasVersesCount[index],
-                          nameEn: surasNameEnglish[index],
-                          nameAr: surasName[index],
-                          suraIndex: index + 1,
-                        ),
+                        arguments: filteredSuras[index],
                       );
                     },
-                    child: SuraItem(
-                      model: SuraModel(
-                        versesCount: surasVersesCount[index],
-                        nameEn: surasNameEnglish[index],
-                        nameAr: surasName[index],
-                        suraIndex: index + 1,
-                      ),
-                    ),
+                    child: SuraItem(model: filteredSuras[index]),
                   );
                 },
               ),

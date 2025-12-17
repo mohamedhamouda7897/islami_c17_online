@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:islami_c17_online/models/hadeth_model.dart';
+import 'package:islami_c17_online/screens/hadeth_details/hadeth_details.dart';
 
 class HadethTab extends StatefulWidget {
   HadethTab({super.key});
@@ -46,7 +48,7 @@ class _HadethTabState extends State<HadethTab> {
                         children: [
                           Text(
                             model.title,
-                            style: TextStyle(
+                            style: GoogleFonts.elMessiri(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                             ),
@@ -55,16 +57,25 @@ class _HadethTabState extends State<HadethTab> {
                             child: ListView.builder(
                               itemCount: model.content.length,
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(18.0),
-                                  child: Text(
-                                    model.content[index],
-                                    maxLines: 8,
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      HadethDetails.routeName,
+                                      arguments: model,
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(18.0),
+                                    child: Text(
+                                      model.content[index],
+                                      maxLines: 8,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.elMessiri(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 );

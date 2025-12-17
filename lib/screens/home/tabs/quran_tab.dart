@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:islami_c17_online/core/app_colors.dart';
 import 'package:islami_c17_online/core/app_styles.dart';
 import 'package:islami_c17_online/core/cache_helper.dart';
@@ -428,7 +429,7 @@ class _QuranTabState extends State<QuranTab> {
               onChanged: (value) {
                 filterSuras(value);
               },
-              style: TextStyle(
+              style: GoogleFonts.elMessiri(
                 fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -438,7 +439,7 @@ class _QuranTabState extends State<QuranTab> {
                   AssetImage("assets/images/ic_quran.png"),
                   color: AppColors.primary,
                 ),
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.elMessiri(
                   fontSize: 16,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -458,7 +459,7 @@ class _QuranTabState extends State<QuranTab> {
             if (displayMostRecent.isNotEmpty) ...[
               Text(
                 "Most Recently",
-                style: TextStyle(
+                style: GoogleFonts.elMessiri(
                   fontSize: 16,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -487,7 +488,7 @@ class _QuranTabState extends State<QuranTab> {
             ],
             Text(
               "Suras List",
-              style: TextStyle(
+              style: GoogleFonts.elMessiri(
                 fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

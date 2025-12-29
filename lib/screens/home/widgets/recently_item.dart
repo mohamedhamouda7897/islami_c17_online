@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:islami_c17_online/core/app_colors.dart';
 import 'package:islami_c17_online/models/sura_model.dart';
 
@@ -25,7 +26,7 @@ class RecentlyItem extends StatelessWidget {
                 Text(
                   model.nameEn,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: GoogleFonts.elMessiri(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -34,7 +35,7 @@ class RecentlyItem extends StatelessWidget {
                 SizedBox(height: 8),
                 Text(
                   model.nameAr,
-                  style: TextStyle(
+                  style: GoogleFonts.elMessiri(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -43,7 +44,7 @@ class RecentlyItem extends StatelessWidget {
                 SizedBox(height: 8),
                 Text(
                   "${model.versesCount} Verses",
-                  style: TextStyle(
+                  style: GoogleFonts.elMessiri(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,

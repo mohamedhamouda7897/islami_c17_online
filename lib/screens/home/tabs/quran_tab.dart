@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:islami_c17_online/core/app_colors.dart';
 import 'package:islami_c17_online/core/app_styles.dart';
+import 'package:islami_c17_online/core/cache_helper.dart';
 import 'package:islami_c17_online/models/sura_model.dart';
 import 'package:islami_c17_online/screens/home/widgets/recently_item.dart';
 import 'package:islami_c17_online/screens/home/widgets/sura_item.dart';
+import 'package:islami_c17_online/screens/sura_details/sura_details_screen.dart';
 
-class QuranTab extends StatelessWidget {
+class QuranTab extends StatefulWidget {
   QuranTab({super.key});
+
+  @override
+  State<QuranTab> createState() => _QuranTabState();
+}
+
+class _QuranTabState extends State<QuranTab> {
+  @override
+  void initState() {
+    super.initState();
+    createSurasList();
+    filteredSuras = allSuras;
+  }
 
   List<String> surasName = [
     "الفاتحه",
@@ -124,6 +139,7 @@ class QuranTab extends StatelessWidget {
     "الفلق",
     "الناس",
   ];
+
   List<String> surasNameEnglish = [
     "Al-Fatihah",
     "Al-Baqarah",
@@ -240,6 +256,7 @@ class QuranTab extends StatelessWidget {
     "Al-Falaq",
     "An-Nas",
   ];
+
   List<int> surasVersesCount = [
     7, // Al-Fatihah
     286, // Al-Baqarah
@@ -357,8 +374,40 @@ class QuranTab extends StatelessWidget {
     6, // An-Nas
   ];
 
+  List<SuraModel> allSuras = [];
+  List<SuraModel> filteredSuras = [];
+
+  void createSurasList() {
+    for (int i = 0; i < surasName.length; i++) {
+      allSuras.add(
+        SuraModel(
+          versesCount: surasVersesCount[i],
+          nameEn: surasNameEnglish[i],
+          nameAr: surasName[i],
+          suraIndex: i + 1,
+        ),
+      );
+    }
+  }
+
+  TextEditingController searchController = TextEditingController();
+
+  void filterSuras(String query) {
+    if (query.isEmpty) {
+      filteredSuras = allSuras;
+    } else {
+      filteredSuras = allSuras.where((model) {
+        return model.nameAr.contains(query) ||
+            model.nameEn.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<int> displayMostRecent = CacheHelper.getList("items");
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -374,8 +423,13 @@ class QuranTab extends StatelessWidget {
           children: [
             SizedBox(height: 192),
             TextField(
+              controller: searchController,
               cursorColor: AppColors.primary,
-              style: TextStyle(
+
+              onChanged: (value) {
+                filterSuras(value);
+              },
+              style: GoogleFonts.elMessiri(
                 fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -385,7 +439,7 @@ class QuranTab extends StatelessWidget {
                   AssetImage("assets/images/ic_quran.png"),
                   color: AppColors.primary,
                 ),
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.elMessiri(
                   fontSize: 16,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -402,37 +456,39 @@ class QuranTab extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            Text(
-              "Most Recently",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            if (displayMostRecent.isNotEmpty) ...[
+              Text(
+                "Most Recently",
+                style: GoogleFonts.elMessiri(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            SizedBox(
-              height: 150,
-              child: ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(width: 12),
-                itemCount: 10,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return RecentlyItem(
-                    model: SuraModel(
-                      versesCount: surasVersesCount[index],
-                      nameEn: surasNameEnglish[index],
-                      nameAr: surasName[index],
-                      suraIndex: index + 1,
-                    ),
-                  );
-                },
+              SizedBox(height: 10),
+              SizedBox(
+                height: 150,
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(width: 12),
+                  itemCount: displayMostRecent.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return RecentlyItem(
+                      model: SuraModel(
+                        versesCount: surasVersesCount[displayMostRecent[index]],
+                        nameEn: surasNameEnglish[displayMostRecent[index]],
+                        nameAr: surasName[displayMostRecent[index]],
+                        suraIndex: displayMostRecent[index] + 1,
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            SizedBox(height: 10),
+              SizedBox(height: 10),
+            ],
             Text(
               "Suras List",
-              style: TextStyle(
+              style: GoogleFonts.elMessiri(
                 fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -444,15 +500,19 @@ class QuranTab extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 separatorBuilder: (context, index) =>
                     Divider(color: Colors.white, endIndent: 44, indent: 44),
-                itemCount: surasName.length,
+                itemCount: filteredSuras.length,
                 itemBuilder: (context, index) {
-                  return SuraItem(
-                    model: SuraModel(
-                      versesCount: surasVersesCount[index],
-                      nameEn: surasNameEnglish[index],
-                      nameAr: surasName[index],
-                      suraIndex: index + 1,
-                    ),
+                  return InkWell(
+                    onTap: () async {
+                      await CacheHelper.saveList(index);
+                      setState(() {});
+                      Navigator.pushNamed(
+                        context,
+                        SuraDetailsScreen.routeName,
+                        arguments: filteredSuras[index],
+                      );
+                    },
+                    child: SuraItem(model: filteredSuras[index]),
                   );
                 },
               ),

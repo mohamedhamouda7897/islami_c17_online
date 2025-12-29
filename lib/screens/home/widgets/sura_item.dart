@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:islami_c17_online/models/sura_model.dart';
 
 class SuraItem extends StatelessWidget {
@@ -12,7 +13,7 @@ class SuraItem extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       trailing: Text(
         model.nameAr,
-        style: TextStyle(
+        style: GoogleFonts.elMessiri(
           fontSize: 20,
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -34,7 +35,7 @@ class SuraItem extends StatelessWidget {
       ),
       subtitle: Text(
         "${model.versesCount} Verses",
-        style: TextStyle(
+        style: GoogleFonts.elMessiri(
           fontSize: 14,
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -42,7 +43,7 @@ class SuraItem extends StatelessWidget {
       ),
       title: Text(
         model.nameEn,
-        style: TextStyle(
+        style: GoogleFonts.elMessiri(
           fontSize: 20,
           color: Colors.white,
           fontWeight: FontWeight.bold,
